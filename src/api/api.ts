@@ -1,7 +1,9 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: process.env.VUE_APP_API_BASE_URL,
+  baseURL:
+    process.env.ENV === "production" ? process.env.VUE_APP_API_BASE_URL : "/",
+  // baseURL: process.env.VUE_APP_API_BASE_URL,
   withCredentials: true,
 });
 

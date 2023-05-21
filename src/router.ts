@@ -3,6 +3,7 @@ import UserLogin from "./components/UserLogin.vue";
 import OrdersList from "./components/OrdersList.vue";
 
 const routes: Array<RouteRecordRaw> = [
+  { path: "/", redirect: "/login" },
   { path: "/login", component: UserLogin },
   { path: "/orders", component: OrdersList },
 ];

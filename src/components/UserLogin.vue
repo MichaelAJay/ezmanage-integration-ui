@@ -26,12 +26,12 @@ export default defineComponent({
 
     async function submitForm() {
       try {
-        const response = await api.post("/user/login", {
+        const response = await api.post("/users/login", {
           username: username.value,
           password: password.value,
         });
 
-        if (response.status === 200) {
+        if (response.status === 201) {
           router.push("/orders");
         } else {
           throw new Error("Bad login");

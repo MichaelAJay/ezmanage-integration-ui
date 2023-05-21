@@ -5,17 +5,21 @@
 </template>
 
 <script lang="ts">
-import { ref, watchEffect } from "vue";
+import { defineComponent, ref, watchEffect } from "vue";
 import api from "@/api/api";
 
-export default {
+interface Props {
+  orderId: string;
+}
+
+export default defineComponent({
   props: {
     orderId: {
       type: String,
       required: true,
     },
   },
-  setup(props) {
+  setup(props: Props) {
     const orderDetail = ref(null);
 
     const fetchOrderDetail = async (orderId: string) => {
@@ -35,7 +39,7 @@ export default {
 
     return { orderDetail };
   },
-};
+});
 </script>
 
 <style scoped>

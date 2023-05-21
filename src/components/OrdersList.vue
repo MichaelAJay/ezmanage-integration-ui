@@ -1,25 +1,34 @@
 <template>
   <div class="orders-page">
     <div class="orders-list">
-      <div
+      <!-- <a-list
         v-for="order in orders"
         :key="order.id"
         @click="selectOrder(order.id)"
       >
         {{ order.name }}
-      </div>
+      </a-list> -->
+      <List :dataSource="orders" @click="selectOrder">
+        <template #default="{ item }">
+          <a-list-item :key="item.id" :onClick="() => selectOrder(item.id)">
+            {{ item.name }}
+          </a-list-item>
+        </template>
+      </List>
     </div>
     <OrderDetail v-if="selectedOrderId" :orderId="selectedOrderId" />
   </div>
 </template>
 
 <script lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, defineComponent } from "vue";
 import OrderDetail from "./OrderDetail.vue";
 import api from "@/api/api";
+import { List } from "ant-design-vue";
 
-export default {
+export default defineComponent({
   components: {
+    List,
     OrderDetail,
   },
   setup() {
@@ -45,7 +54,7 @@ export default {
 
     return { orders, selectOrder, selectedOrderId };
   },
-};
+});
 </script>
 
 <style scoped>
@@ -55,5 +64,6 @@ export default {
 .orders-list {
   width: 20%;
   /* additional styling for the list */
+  overflow-y: auto;
 }
 </style>
