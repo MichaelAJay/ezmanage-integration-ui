@@ -1,20 +1,16 @@
 <template>
-  <div class="orders-page">
-    <div class="orders-list">
-      <!-- <a-list
+  <div class="flex w-full h-full overflow-hidden">
+    <div
+      class="w-1/5 overflow-y-auto scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray scrolling-touch"
+    >
+      <div
         v-for="order in orders"
         :key="order.id"
         @click="selectOrder(order.id)"
+        class="cursor-pointer px-4 py-2 hover:bg-gray-100"
       >
-        {{ order.name }}
-      </a-list> -->
-      <List :dataSource="orders" @click="selectOrder">
-        <template #default="{ item }">
-          <a-list-item :key="item.id" :onClick="() => selectOrder(item.id)">
-            {{ item.name }}
-          </a-list-item>
-        </template>
-      </List>
+        {{ formatOrderName(order.name) }}
+      </div>
     </div>
     <OrderDetail v-if="selectedOrderId" :orderId="selectedOrderId" />
   </div>
@@ -24,11 +20,9 @@
 import { ref, onMounted, defineComponent } from "vue";
 import OrderDetail from "./OrderDetail.vue";
 import api from "@/api/api";
-import { List } from "ant-design-vue";
 
 export default defineComponent({
   components: {
-    List,
     OrderDetail,
   },
   setup() {
@@ -38,6 +32,7 @@ export default defineComponent({
     const fetchOrders = async () => {
       try {
         const response = await api.get("/orders");
+
         orders.value = response.data;
       } catch (err) {
         // handle error
@@ -50,20 +45,15 @@ export default defineComponent({
       selectedOrderId.value = orderId;
     };
 
+    const formatOrderName = (name: string) => {
+      return `#${name.slice(0, 3)} ${name.slice(3)}`;
+    };
+
     onMounted(fetchOrders);
 
-    return { orders, selectOrder, selectedOrderId };
+    return { orders, selectOrder, selectedOrderId, formatOrderName };
   },
 });
 </script>
 
-<style scoped>
-.orders-page {
-  display: flex;
-}
-.orders-list {
-  width: 20%;
-  /* additional styling for the list */
-  overflow-y: auto;
-}
-</style>
+<style scoped></style>

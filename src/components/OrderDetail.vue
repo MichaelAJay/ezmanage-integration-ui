@@ -1,5 +1,5 @@
 <template>
-  <div class="order-detail">
+  <div class="p-4">
     <!-- display order details here -->
   </div>
 </template>
