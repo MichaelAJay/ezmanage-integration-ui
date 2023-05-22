@@ -1,67 +1,13 @@
 <template>
-  <div class="order-detail w-4/5 p-4">
-    <h2>Order Detail - #{{ formatOrderNumber(order.orderNumber) }}</h2>
-    <h3>Source Type: {{ order.sourceType }}</h3>
-
-    <h3>Event Details</h3>
-    <p>Delivery Time: {{ formatDate(order.event.deliveryTime) }}</p>
-    <p>Address: {{ formatAddress(order.event.address) }}</p>
-    <p>
-      Contact: {{ order.event.contact.name }}, {{ order.event.contact.phone }}
-    </p>
-
-    <h3>Total</h3>
-    <p>Sub Total: {{ order.totals.subTotal }}</p>
-    <p>Caterer Total Due: {{ order.totals.catererTotalDue }}</p>
-    <p>Tip: {{ order.totals.tip }}</p>
-    <p>Delivery Fee: {{ order.totals.deliveryFee }}</p>
-    <p>Commission: {{ order.totals.commission }}</p>
-
-    <h3>Items</h3>
-    <ul>
-      <li v-for="item in order.items" :key="item.name">
-        {{ item.quantity }} x {{ item.name }} - {{ item.cost }}
-      </li>
-    </ul>
-  </div>
+  <router-view />
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from "vue";
-import api from "./api/api";
-import { IOrder } from "./components/interfaces";
+import { defineComponent } from "vue";
 
 export default defineComponent({
-  props: {
-    orderId: String,
-  },
-  setup(props) {
-    const order = ref<IOrder | null>(null);
-
-    const fetchOrder = async () => {
-      const response = await api.get(`/orders/${props.orderId}`);
-      order.value = response.data;
-    };
-
-    onMounted(fetchOrder);
-
-    watch(props, fetchOrder);
-
-    const formatOrderNumber = (number: string) => {
-      return `#${number.slice(0, 3)} ${number.slice(3)}`;
-    };
-
-    const formatDate = (dateString: string) => {
-      const date = new Date(dateString);
-      return date.toLocaleString();
-    };
-
-    const formatAddress = (address: IOrder["event"]["address"]) => {
-      return `${address.name}, ${address.street}, ${address.city}, ${address.state}, ${address.zip}`;
-    };
-
-    return { order, formatOrderNumber, formatDate, formatAddress };
-  },
+  name: "App",
+  components: {},
 });
 </script>
 

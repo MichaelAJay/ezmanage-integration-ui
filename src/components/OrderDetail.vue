@@ -1,47 +1,75 @@
 <template>
-  <div class="p-4">
-    <!-- display order details here -->
+  <div class="order-detail flex-grow p-4" v-if="order">
+    <h2>Order Detail - #{{ formatOrderNumber(order.orderNumber) }}</h2>
+    <h3>Source Type: {{ order.sourceType }}</h3>
+
+    <h3>Event Details</h3>
+    <p>Delivery Time: {{ formatDate(order.event.deliveryTime) }}</p>
+    <p>Address: {{ formatAddress(order.event.address) }}</p>
+    <p>
+      Contact: {{ order.event.contact.name }}, {{ order.event.contact.phone }}
+    </p>
+
+    <h3>Total</h3>
+    <p>Sub Total: {{ order.totals.subTotal }}</p>
+    <p>Caterer Total Due: {{ order.totals.catererTotalDue }}</p>
+    <p>Tip: {{ order.totals.tip }}</p>
+    <p>Delivery Fee: {{ order.totals.deliveryFee }}</p>
+    <p>Commission: {{ order.totals.commission }}</p>
+
+    <h3>Items</h3>
+    <ul>
+      <li v-for="item in order.items" :key="item.name">
+        {{ item.quantity }} x {{ item.name }} - {{ item.cost }}
+      </li>
+    </ul>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watchEffect } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 import api from "@/api/api";
-
-interface Props {
-  orderId: string;
-}
+import { IOrder } from "./interfaces";
 
 export default defineComponent({
+  name: "OrderDetail",
   props: {
-    orderId: {
-      type: String,
-      required: true,
-    },
+    orderId: String,
   },
-  setup(props: Props) {
-    const orderDetail = ref(null);
+  setup(props) {
+    const order = ref<IOrder | null>(null);
 
-    const fetchOrderDetail = async (orderId: string) => {
-      try {
-        const response = await api.get(`/orders/${orderId}`);
-        orderDetail.value = response.data;
-      } catch (error) {
-        // handle error
-      }
+    const fetchOrder = async () => {
+      console.log("orderId", props.orderId);
+      const response = await api.get(`/orders/${props.orderId}`);
+      order.value = response.data;
+      console.log("order.value", order.value);
     };
 
-    watchEffect(() => {
-      if (props.orderId) {
-        fetchOrderDetail(props.orderId);
-      }
-    });
+    onMounted(fetchOrder);
 
-    return { orderDetail };
+    watch(() => props.orderId, fetchOrder);
+
+    const formatOrderNumber = (number: string) => {
+      return `#${number.slice(0, 3)} ${number.slice(3)}`;
+    };
+
+    const formatDate = (dateString: string) => {
+      const date = new Date(dateString);
+      return date.toLocaleString();
+    };
+
+    const formatAddress = (address: IOrder["event"]["address"]) => {
+      return `${address.name}, ${address.street}, ${address.city}, ${address.state}, ${address.zip}`;
+    };
+
+    return { order, formatOrderNumber, formatDate, formatAddress };
   },
 });
 </script>
 
 <style scoped>
-/* style for the order detail */
+.order-detail {
+  width: 80%;
+}
 </style>

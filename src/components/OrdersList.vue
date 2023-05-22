@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full h-full overflow-hidden">
+  <div class="flex flex-row w-full h-full overflow-hidden">
     <div
       class="w-1/5 overflow-y-auto scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray scrolling-touch"
     >
@@ -12,7 +12,9 @@
         {{ formatOrderName(order.name) }}
       </div>
     </div>
-    <OrderDetail v-if="selectedOrderId" :orderId="selectedOrderId" />
+    <div class="w-4/5 overflow-y-auto">
+      <OrderDetail v-if="selectedOrderId" :orderId="selectedOrderId" />
+    </div>
   </div>
 </template>
 
@@ -56,4 +58,9 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.flex {
+  display: flex;
+  flex-direction: row;
+}
+</style>
