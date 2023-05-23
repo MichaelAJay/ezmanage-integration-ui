@@ -23,6 +23,13 @@
         {{ item.quantity }} x {{ item.name }} - {{ item.cost }}
       </li>
     </ul>
+
+    <h3>Items Aggregate</h3>
+    <ul>
+      <li v-for="(quantity, name) in order.itemsAggregate" :key="name">
+        {{ quantity }} x {{ name }}
+      </li>
+    </ul>
   </div>
 </template>
 
