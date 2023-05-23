@@ -33,4 +33,5 @@ export interface IOrder {
     name: string;
     cost: number;
   }[];
+  itemsAggregate: { [key: string]: number };
 }
