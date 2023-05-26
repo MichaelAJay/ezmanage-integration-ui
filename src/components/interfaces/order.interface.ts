@@ -11,11 +11,11 @@ export interface IOrder {
       street2: string | null;
       street3: string | null;
       zip: string;
-    };
+    } | null;
     contact: {
       name: string;
       phone: string;
-    };
+    } | null;
   };
   contact: {
     firstName: string | null;
