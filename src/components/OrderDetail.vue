@@ -48,10 +48,8 @@ export default defineComponent({
     const order = ref<IOrder | null>(null);
 
     const fetchOrder = async () => {
-      console.log("orderId", props.orderId);
       const response = await api.get(`/orders/${props.orderId}`);
       order.value = response.data;
-      console.log("order.value", order.value);
     };
 
     onMounted(fetchOrder);
