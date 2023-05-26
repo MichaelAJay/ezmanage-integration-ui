@@ -7,7 +7,8 @@
     <p>Delivery Time: {{ formatDate(order.event.deliveryTime) }}</p>
     <p>Address: {{ formatAddress(order.event.address) }}</p>
     <p>
-      Contact: {{ order.event.contact.name }}, {{ order.event.contact.phone }}
+      Contact: {{ order.event?.contact?.name ?? "Not available" }},
+      {{ "phone: " + (order.event?.contact?.phone ?? "Not available") }}
     </p>
 
     <h3>Total</h3>
@@ -67,6 +68,9 @@ export default defineComponent({
     };
 
     const formatAddress = (address: IOrder["event"]["address"]) => {
+      if (!address) {
+        return "Not available";
+      }
       return `${address.name}, ${address.street}, ${address.city}, ${address.state}, ${address.zip}`;
     };
 
