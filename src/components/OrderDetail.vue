@@ -11,6 +11,12 @@
       {{ "phone: " + (order.event?.contact?.phone ?? "Not available") }}
     </p>
 
+    <h3>Customer</h3>
+    <p>
+      Customer: {{ order.contact.firstName || "N/A" }}
+      {{ order.contact.lastName || "" }}
+    </p>
+
     <h3>Total</h3>
     <p>Sub Total: {{ order.totals.subTotal }}</p>
     <p>Caterer Total Due: {{ order.totals.catererTotalDue }}</p>
