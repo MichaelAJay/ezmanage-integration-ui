@@ -1,6 +1,7 @@
 export interface IOrder {
   orderNumber: string;
   sourceType: string;
+  status: string;
   event: {
     deliveryTime: string;
     address: {
