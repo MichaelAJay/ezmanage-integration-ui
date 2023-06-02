@@ -1,39 +1,52 @@
 <template>
-  <div class="order-detail flex-grow p-4" v-if="order">
-    <h2>Order Detail - #{{ formatOrderNumber(order.orderNumber) }}</h2>
-    <h3>Source Type: {{ order.sourceType }}</h3>
+  <div
+    class="order-detail flex-grow p-4 bg-white shadow-lg rounded-lg m-4"
+    v-if="order"
+  >
+    <h2 class="text-2xl font-bold mb-2">
+      Order Detail - {{ formatOrderNumber(order.orderNumber) }}
+    </h2>
+    <h3 class="text-xl font-semibold mb-1">
+      Source Type: {{ order.sourceType }}
+    </h3>
 
-    <h3>Event Details</h3>
-    <p>Delivery Time: {{ formatDate(order.event.deliveryTime) }}</p>
-    <p>Address: {{ formatAddress(order.event.address) }}</p>
-    <p>
+    <h3 class="text-xl font-semibold mt-4 mb-1">Event Details</h3>
+    <p class="mb-1">
+      Delivery Time: {{ formatDate(order.event.deliveryTime) }}
+    </p>
+    <p class="mb-1">Address: {{ formatAddress(order.event.address) }}</p>
+    <p class="mb-1">
       Contact: {{ order.event?.contact?.name ?? "Not available" }},
       {{ "phone: " + (order.event?.contact?.phone ?? "Not available") }}
     </p>
 
-    <h3>Customer</h3>
-    <p>
+    <h3 class="text-xl font-semibold mt-4 mb-1">Customer</h3>
+    <p class="mb-1">
       Customer: {{ order.contact.firstName || "N/A" }}
       {{ order.contact.lastName || "" }}
     </p>
 
-    <h3>Total</h3>
-    <p>Sub Total: {{ order.totals.subTotal }}</p>
-    <p>Caterer Total Due: {{ order.totals.catererTotalDue }}</p>
-    <p>Tip: {{ order.totals.tip }}</p>
-    <p>Delivery Fee: {{ order.totals.deliveryFee }}</p>
-    <p>Commission: {{ order.totals.commission }}</p>
+    <h3 class="text-xl font-semibold mt-4 mb-1">Total</h3>
+    <p class="mb-1">Sub Total: {{ order.totals.subTotal }}</p>
+    <p class="mb-1">Caterer Total Due: {{ order.totals.catererTotalDue }}</p>
+    <p class="mb-1">Tip: {{ order.totals.tip }}</p>
+    <p class="mb-1">Delivery Fee: {{ order.totals.deliveryFee }}</p>
+    <p class="mb-1">Commission: {{ order.totals.commission }}</p>
 
-    <h3>Items</h3>
-    <ul>
-      <li v-for="item in order.items" :key="item.name">
+    <h3 class="text-xl font-semibold mt-4 mb-1">Items</h3>
+    <ul class="list-disc list-inside">
+      <li v-for="item in order.items" :key="item.name" class="mb-1">
         {{ item.quantity }} x {{ item.name }} - {{ item.cost }}
       </li>
     </ul>
 
-    <h3>Items Aggregate</h3>
-    <ul>
-      <li v-for="(quantity, name) in order.itemsAggregate" :key="name">
+    <h3 class="text-xl font-semibold mt-4 mb-1">Items Aggregate</h3>
+    <ul class="list-disc list-inside">
+      <li
+        v-for="(quantity, name) in order.itemsAggregate"
+        :key="name"
+        class="mb-1"
+      >
         {{ quantity }} x {{ name }}
       </li>
     </ul>

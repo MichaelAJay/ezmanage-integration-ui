@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row w-full h-full overflow-hidden">
     <div
-      class="w-1/5 overflow-y-auto scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray scrolling-touch"
+      class="w-1/10 overflow-y-auto scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray scrolling-touch"
     >
       <div
         v-for="order in orders"
@@ -12,7 +12,7 @@
         {{ formatOrderName(order.name) }}
       </div>
     </div>
-    <div class="w-4/5 overflow-y-auto">
+    <div class="w-9/10 overflow-y-auto">
       <OrderDetail v-if="selectedOrderId" :orderId="selectedOrderId" />
     </div>
   </div>
